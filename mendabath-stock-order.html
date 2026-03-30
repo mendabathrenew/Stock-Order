@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mendabath – Stock Order</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --yellow: #F2D60A;
+    --yellow-dark: #d4bc00;
+    --grey-dark: #2E2E2E;
+    --grey-mid: #4A4A4A;
+    --grey-light: #6B6B6B;
+    --grey-bg: #F5F5F3;
+    --grey-border: #DDDDD8;
+    --white: #FFFFFF;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Barlow', sans-serif; background: var(--grey-bg); color: var(--grey-dark); min-height: 100vh; }
+
+  /* HEADER */
+  header { background: var(--grey-dark); position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 12px rgba(0,0,0,0.3); }
+  .header-inner { max-width: 780px; margin: 0 auto; display: flex; align-items: center; gap: 16px; padding: 14px 20px; }
+  .logo-badge { background: var(--yellow); border-radius: 8px; padding: 6px 12px; display: flex; flex-direction: column; align-items: center; line-height: 1.2; flex-shrink: 0; }
+  .logo-badge span:first-child { font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 13px; color: var(--grey-dark); letter-spacing: 0.5px; }
+  .logo-badge span:last-child { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 11px; color: var(--grey-dark); letter-spacing: 1px; }
+  .header-text h1 { font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 22px; color: var(--white); letter-spacing: 1.5px; text-transform: uppercase; }
+  .header-text p { font-size: 12px; color: #aaa; margin-top: 1px; }
+
+  /* PROGRESS */
+  .progress-bar-wrap { background: var(--grey-dark); padding: 0 20px 12px; }
+  .progress-bar-inner { max-width: 780px; margin: 0 auto; }
+  .progress-label { display: flex; justify-content: space-between; margin-bottom: 6px; }
+  .progress-label span { font-size: 11px; color: #999; font-family: 'Barlow Condensed', sans-serif; letter-spacing: 0.8px; text-transform: uppercase; }
+  .progress-label .step-name { color: var(--yellow); font-weight: 600; }
+  .progress-track { background: rgba(255,255,255,0.12); border-radius: 4px; height: 4px; overflow: hidden; }
+  .progress-fill { background: var(--yellow); height: 100%; border-radius: 4px; width: 0%; transition: width 0.4s ease; }
+
+  /* WRAP */
+  .form-wrap { max-width: 780px; margin: 0 auto; padding: 24px 16px 60px; }
+
+  /* STEPS */
+  .step { display: none; }
+  .step.active { display: block; animation: fadeUp 0.3s ease; }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* CARD */
+  .card { background: var(--white); border-radius: 12px; border: 1px solid var(--grey-border); margin-bottom: 16px; overflow: hidden; }
+  .card-header { background: var(--grey-dark); padding: 12px 20px; display: flex; align-items: center; gap: 10px; }
+  .card-header .icon { background: var(--yellow); color: var(--grey-dark); font-size: 14px; width: 28px; height: 28px; border-radius: 6px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .card-header h2 { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 17px; color: var(--white); letter-spacing: 1px; text-transform: uppercase; }
+  .card-header p { font-size: 11px; color: #aaa; margin-top: 1px; }
+  .card-body { padding: 20px; }
+
+  /* FIELDS */
+  .field-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  @media (max-width: 500px) { .field-grid { grid-template-columns: 1fr; } }
+  .field { display: flex; flex-direction: column; gap: 5px; }
+  .field label { font-size: 12px; font-weight: 600; color: var(--grey-mid); text-transform: uppercase; letter-spacing: 0.6px; }
+  .field input, .field select, .field textarea {
+    padding: 10px 12px; border: 1.5px solid var(--grey-border); border-radius: 7px;
+    font-family: 'Barlow', sans-serif; font-size: 15px; color: var(--grey-dark);
+    background: var(--white); transition: border-color 0.2s, box-shadow 0.2s;
+    appearance: none; -webkit-appearance: none; outline: none;
+  }
+  .field input:focus, .field select:focus, .field textarea:focus { border-color: var(--yellow-dark); box-shadow: 0 0 0 3px rgba(242,214,10,0.18); }
+  .field input[type="number"] { -moz-appearance: textfield; }
+  .field input[type="number"]::-webkit-inner-spin-button, .field input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; }
+  .field input[type="date"] { font-family: 'Barlow', sans-serif; }
+  .field textarea { resize: vertical; min-height: 80px; }
+
+  .unit-wrap { position: relative; }
+  .unit-wrap input { padding-right: 48px; width: 100%; }
+  .unit-badge { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); font-size: 11px; font-weight: 700; color: var(--grey-light); background: var(--grey-bg); padding: 2px 6px; border-radius: 4px; letter-spacing: 0.5px; pointer-events: none; }
+
+  .section-divider { font-family: 'Barlow Condensed', sans-serif; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--grey-light); padding: 4px 0 10px; margin: 16px 0 12px; display: flex; align-items: center; gap: 8px; }
+  .section-divider::after { content: ''; flex: 1; height: 1px; background: var(--grey-border); }
+
+  /* TECH CARDS */
+  .tech-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  @media (max-width: 420px) { .tech-grid { grid-template-columns: repeat(2, 1fr); } }
+  .tech-card { padding: 14px 8px; border-radius: 10px; border: 1.5px solid var(--grey-border); background: var(--white); font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 16px; letter-spacing: 0.5px; color: var(--grey-mid); cursor: pointer; text-align: center; transition: all 0.15s; text-transform: uppercase; display: flex; flex-direction: column; align-items: center; gap: 6px; }
+  .tech-card .avatar { width: 38px; height: 38px; border-radius: 50%; background: var(--grey-bg); border: 2px solid var(--grey-border); display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 800; color: var(--grey-mid); transition: all 0.15s; }
+  .tech-card:hover { border-color: var(--yellow-dark); }
+  .tech-card:hover .avatar { border-color: var(--yellow); background: #fdf9d0; }
+  .tech-card.selected { background: var(--grey-dark); border-color: var(--grey-dark); color: var(--yellow); }
+  .tech-card.selected .avatar { background: var(--yellow); border-color: var(--yellow); color: var(--grey-dark); }
+
+  /* BUTTONS */
+  .nav-buttons { display: flex; justify-content: space-between; align-items: center; margin-top: 24px; gap: 12px; }
+  .btn { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 16px; letter-spacing: 1px; text-transform: uppercase; padding: 13px 28px; border-radius: 8px; border: none; cursor: pointer; transition: all 0.18s; display: flex; align-items: center; gap: 7px; }
+  .btn-primary { background: var(--yellow); color: var(--grey-dark); flex: 1; justify-content: center; }
+  .btn-primary:hover { background: var(--yellow-dark); transform: translateY(-1px); }
+  .btn-secondary { background: transparent; color: var(--grey-mid); border: 1.5px solid var(--grey-border); }
+  .btn-secondary:hover { background: var(--grey-border); }
+  .btn-submit { background: var(--grey-dark); color: var(--yellow); flex: 1; justify-content: center; }
+  .btn-submit:hover { background: #1a1a1a; transform: translateY(-1px); }
+
+  /* STEP DOTS */
+  .step-dots { display: flex; align-items: center; gap: 6px; }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--grey-border); transition: all 0.2s; }
+  .dot.active { background: var(--yellow); width: 20px; border-radius: 4px; }
+  .dot.done { background: var(--grey-mid); }
+
+  /* LOADING */
+  .submitting-overlay { display: none; position: fixed; inset: 0; background: rgba(46,46,46,0.75); backdrop-filter: blur(4px); z-index: 999; align-items: center; justify-content: center; flex-direction: column; gap: 16px; }
+  .submitting-overlay.show { display: flex; }
+  .spinner { width: 44px; height: 44px; border: 4px solid rgba(255,255,255,0.2); border-top-color: var(--yellow); border-radius: 50%; animation: spin 0.8s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .submitting-overlay p { color: var(--white); font-family: 'Barlow Condensed', sans-serif; font-size: 18px; letter-spacing: 1px; }
+
+  /* SUCCESS */
+  #success-screen { display: none; text-align: center; padding: 60px 20px; animation: fadeUp 0.4s ease; }
+  .success-icon { width: 72px; height: 72px; background: var(--yellow); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 32px; margin: 0 auto 20px; }
+  #success-screen h2 { font-family: 'Barlow Condensed', sans-serif; font-size: 28px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; }
+  #success-screen p { color: var(--grey-light); margin-top: 8px; font-size: 15px; }
+  .success-meta { background: var(--white); border: 1px solid var(--grey-border); border-radius: 10px; padding: 16px 24px; margin: 20px auto; max-width: 320px; font-size: 14px; color: var(--grey-mid); line-height: 1.8; }
+  .success-meta strong { color: var(--grey-dark); }
+  .btn-reset { margin-top: 12px; background: var(--grey-dark); color: var(--yellow); border: none; padding: 13px 32px; border-radius: 8px; font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 16px; letter-spacing: 1px; text-transform: uppercase; cursor: pointer; }
+  .btn-reset:hover { background: #1a1a1a; }
+
+  .pct-note { font-size: 11px; color: var(--grey-light); margin-top: 2px; }
+  .req { color: var(--yellow-dark); }
+
+  /* ORDER BADGE */
+  .order-badge { display: inline-block; background: #fff3cd; border: 1px solid #f0c040; color: #7a5c00; font-family: 'Barlow Condensed', sans-serif; font-size: 12px; font-weight: 700; letter-spacing: 0.8px; text-transform: uppercase; padding: 4px 10px; border-radius: 20px; margin-bottom: 16px; }
+</style>
+</head>
+<body>
+
+<div class="submitting-overlay" id="loadingOverlay">
+  <div class="spinner"></div>
+  <p>Submitting your stock order…</p>
+</div>
+
+<header>
+  <div class="header-inner">
+    <div class="logo-badge">
+      <span>MEND A</span>
+      <span>BATH</span>
+    </div>
+    <div class="header-text">
+      <h1>Stock Order</h1>
+      <p>Complete and submit when stock is needed</p>
+    </div>
+  </div>
+  <div class="progress-bar-wrap">
+    <div class="progress-bar-inner">
+      <div class="progress-label">
+        <span class="step-name" id="progressStepName">Technician &amp; Date</span>
+        <span id="progressText">Step 1 of 3</span>
+      </div>
+      <div class="progress-track">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="form-wrap">
+
+  <!-- ===== STEP 1: TECH + DATE ===== -->
+  <div class="step active" id="step1">
+    <div class="card">
+      <div class="card-header">
+        <div class="icon">👤</div>
+        <div><h2>Technician &amp; Date</h2><p>Who is placing this order and when?</p></div>
+      </div>
+      <div class="card-body">
+        <div class="field" style="margin-bottom:20px">
+          <label>Your Name <span class="req">*</span></label>
+          <div class="tech-grid">
+            <div class="tech-card" onclick="selectTech(this,'Cecil')"><div class="avatar">C</div>Cecil</div>
+            <div class="tech-card" onclick="selectTech(this,'Andy')"><div class="avatar">A</div>Andy</div>
+            <div class="tech-card" onclick="selectTech(this,'David')"><div class="avatar">D</div>David</div>
+            <div class="tech-card" onclick="selectTech(this,'Tyler')"><div class="avatar">T</div>Tyler</div>
+            <div class="tech-card" onclick="selectTech(this,'Peter')"><div class="avatar">P</div>Peter</div>
+          </div>
+          <input type="hidden" id="techName">
+        </div>
+        <div class="field">
+          <label>Date of Order <span class="req">*</span></label>
+          <input type="date" id="orderDate">
+        </div>
+      </div>
+    </div>
+    <div class="nav-buttons">
+      <div class="step-dots"><div class="dot active"></div><div class="dot"></div><div class="dot"></div></div>
+      <button class="btn btn-primary" onclick="goStep(2)">Next: Paint &amp; Tools →</button>
+    </div>
+  </div>
+
+  <!-- ===== STEP 2: PAINT + TOOLS ===== -->
+  <div class="step" id="step2">
+    <div class="card">
+      <div class="card-header">
+        <div class="icon">🎨</div>
+        <div><h2>Paint &amp; Tool Stock</h2><p>Enter quantities needed — leave blank if not required</p></div>
+      </div>
+      <div class="card-body">
+
+        <div class="section-divider">OPT 2 Kit</div>
+        <div class="field-grid">
+          <div class="field"><label>White</label><div class="unit-wrap"><input type="number" id="opt2White" min="0" placeholder="0"><span class="unit-badge">QTY</span></div></div>
+          <div class="field"><label>Colour</label><div class="unit-wrap"><input type="number" id="opt2Colour" min="0" placeholder="0"><span class="unit-badge">QTY</span></div></div>
+          <div class="field"><label>Thinners</label><div class="unit-wrap"><input type="number" id="opt2Thinners" min="0" placeholder="0"><span class="unit-badge">QTY</span></div></div>
+          <div class="field"><label>Hardener</label><div class="unit-wrap"><input type="number" id="opt2Hardener" min="0" placeholder="0"><span class="unit-badge">QTY</span></div></div>
+        </div>
+
+        <div class="section-divider">OPT 1</div>
+        <div class="field-grid">
+          <div class="field"><label>Clear 1L</label><div class="unit-wrap"><input type="number" id="opt1Clear" min="0" placeholder="0"><span class="unit-badge">QTY</span></div></div>
+          <div class="field"><label>White</label><div class="unit-wrap"><input type="number" id="opt1White" min="0" placeholder="0"><span class="unit-badge">QTY</span></div></div>
+          <div class="field"><label>Catalyst</label><div class="unit-wrap"><input type="number" id="opt1Catalyst" min="0" placeholder="0"><span class="unit-badge">QTY</span></div></div>
+          <div class="field"><label>Hardener</label><div class="unit-wrap"><input type="number" id="opt1Hardener" min="0" placeholder="0"><span class="unit-badge">QTY</span></div></div>
+          <div class="field"><label>Thinners</label><div class="unit-wrap"><input type="number" id="opt1Thinners" min="0" placeholder="0"><span class="unit-badge">QTY</span></div></div>
+        </div>
+
+        <div class="section-divider">Other Paints</div>
+        <div class="field-grid">
+          <div class="field"><label>Tile Primer</label><div class="unit-wrap"><input type="number" id="tilePrimer" min="0" placeholder="0"><span class="unit-badge">QTY</span></div></div>
+          <div class="field"><label>Permatrip</label><div class="unit-wrap"><input type="number" id="permatrip" min="0" placeholder="0"><span class="unit-badge">QTY</span></div></div>
+        </div>
+
+        <div class="section-divider">Application Tools</div>
+        <div class="field-grid">
+          <div class="field"><label>Roller Heads</label><div class="unit-wrap"><input type="number" id="rollerHeads" min="0" placeholder="0"><span class="unit-badge">QTY</span></div></div>
+          <div class="field"><label>Paint Tray Inserts</label><div class="unit-wrap"><input type="number" id="trayInserts" min="0" placeholder="0"><span class="unit-badge">QTY</span></div></div>
+          <div class="field"><label>Roller Arms</label><div class="unit-wrap"><input type="number" id="rollerArms" min="0" placeholder="0"><span class="unit-badge">QTY</span></div></div>
+          <div class="field"><label>Grit</label><div class="unit-wrap"><input type="number" id="grit" min="0" placeholder="0"><span class="unit-badge">QTY</span></div></div>
+        </div>
+
+      </div>
+    </div>
+    <div class="nav-buttons">
+      <button class="btn btn-secondary" onclick="goStep(1)">← Back</button>
+      <div class="step-dots"><div class="dot done"></div><div class="dot active"></div><div class="dot"></div></div>
+      <button class="btn btn-primary" onclick="goStep(3)">Next: Consumables →</button>
+    </div>
+  </div>
+
+  <!-- ===== STEP 3: CONSUMABLES + NOTES ===== -->
+  <div class="step" id="step3">
+    <div class="card">
+      <div class="card-header">
+        <div class="icon">🗂️</div>
+        <div><h2>Consumables &amp; Notes</h2><p>Tape, discs, fluids, fillers, PPE &amp; extras</p></div>
+      </div>
+      <div class="card-body">
+
+        <div class="section-divider">Masking &amp; Sheeting</div>
+        <div class="field-grid">
+          <div class="field"><label>1" Masking Tape</label><div class="unit-wrap"><input type="number" id="tape1" min="0" placeholder="0"><span class="unit-badge">QTY</span></div></div>
+          <div class="field"><label>2" Masking Tape</label><div class="unit-wrap"><input type="number" id="tape2" min="0" placeholder="0"><span class="unit-badge">QTY</span></div></div>
+          <div class="field"><label>Short Sheeting</label><div class="unit-wrap"><input type="number" id="shortSheet" min="0" placeholder="0"><span class="unit-badge">QTY</span></div></div>
+          <div class="field"><label>High Sheeting</label><div class="unit-wrap"><input type="number" id="highSheet" min="0" placeholder="0"><span class="unit-badge">QTY</span></div></div>
+        </div>
+
+        <div class="section-divider">Mirka Discs</div>
+        <div class="field-grid">
+          <div class="field"><label>40HD</label><div class="unit-wrap"><input type="number" id="mirka40" min="0" placeholder="0"><span class="unit-badge">QTY</span></div></div>
+          <div class="field"><label>80HD</label><div class="unit-wrap"><input type="number" id="mirka80" min="0" placeholder="0"><span class="unit-badge">QTY</span></div></div>
+          <div class="field"><label>120HD</label><div class="unit-wrap"><input type="number" id="mirka120" min="0" placeholder="0"><span class="unit-badge">QTY</span></div></div>
+          <div class="field"><label>240HD</label><div class="unit-wrap"><input type="number" id="mirka240" min="0" placeholder="0"><span class="unit-badge">QTY</span></div></div>
+          <div class="field"><label>400HD</label><div class="unit-wrap"><input type="number" id="mirka400" min="0" placeholder="0"><span class="unit-badge">QTY</span></div></div>
+        </div>
+
+        <div class="section-divider">Fluids</div>
+        <div class="field-grid">
+          <div class="field">
+            <label>Degreaser 5L</label>
+            <div class="unit-wrap"><input type="number" id="degreaser" min="0" max="100" placeholder="0"><span class="unit-badge">%</span></div>
+            <span class="pct-note">% remaining in container</span>
+          </div>
+          <div class="field">
+            <label>Cleaning Thinners 5L</label>
+            <div class="unit-wrap"><input type="number" id="cleanThinners" min="0" max="100" placeholder="0"><span class="unit-badge">%</span></div>
+            <span class="pct-note">% remaining in container</span>
+          </div>
+        </div>
+
+        <div class="section-divider">Fillers</div>
+        <div class="field-grid">
+          <div class="field"><label>Dolphin</label><div class="unit-wrap"><input type="number" id="fillerDolphin" min="0" placeholder="0"><span class="unit-badge">QTY</span></div></div>
+          <div class="field"><label>P38</label><div class="unit-wrap"><input type="number" id="fillerP38" min="0" placeholder="0"><span class="unit-badge">QTY</span></div></div>
+          <div class="field"><label>P40</label><div class="unit-wrap"><input type="number" id="fillerP40" min="0" placeholder="0"><span class="unit-badge">QTY</span></div></div>
+        </div>
+
+        <div class="section-divider">Safety &amp; PPE</div>
+        <div class="field-grid">
+          <div class="field"><label>Respirator Filters</label><div class="unit-wrap"><input type="number" id="respiratorFilters" min="0" placeholder="0"><span class="unit-badge">QTY</span></div></div>
+          <div class="field"><label>Turbine Filters</label><div class="unit-wrap"><input type="number" id="turbineFilters" min="0" placeholder="0"><span class="unit-badge">QTY</span></div></div>
+          <div class="field"><label>Dust Masks</label><div class="unit-wrap"><input type="number" id="dustMasks" min="0" placeholder="0"><span class="unit-badge">QTY</span></div></div>
+        </div>
+
+        <div class="section-divider">Notes</div>
+        <div class="field">
+          <textarea id="notes" placeholder="Aftercare cards, business cards, or any other items needed…"></textarea>
+        </div>
+
+      </div>
+    </div>
+    <div class="nav-buttons">
+      <button class="btn btn-secondary" onclick="goStep(2)">← Back</button>
+      <div class="step-dots"><div class="dot done"></div><div class="dot done"></div><div class="dot active"></div></div>
+      <button class="btn btn-submit" onclick="submitOrder()">✓ Submit Order</button>
+    </div>
+  </div>
+
+  <!-- SUCCESS -->
+  <div id="success-screen">
+    <div class="success-icon">✓</div>
+    <h2>Order Submitted!</h2>
+    <p>Your stock order has been recorded successfully.</p>
+    <div class="success-meta">
+      Submitted by <strong id="successName">—</strong><br>
+      Date: <strong id="successDate">—</strong>
+    </div>
+    <button class="btn-reset" onclick="resetForm()">Submit Another Order →</button>
+  </div>
+
+</div>
+
+<script>
+// Set today's date as default
+const today = new Date();
+const yyyy = today.getFullYear();
+const mm = String(today.getMonth() + 1).padStart(2, '0');
+const dd = String(today.getDate()).padStart(2, '0');
+document.getElementById('orderDate').value = yyyy + '-' + mm + '-' + dd;
+
+function selectTech(el, name) {
+  document.querySelectorAll('.tech-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  document.getElementById('techName').value = name;
+}
+
+const stepNames = ['Technician & Date', 'Paint & Tool Stock', 'Consumables & Notes'];
+function goStep(n) {
+  if (n > 1) {
+    if (!document.getElementById('techName').value) { alert('Please select your name before continuing.'); return; }
+    if (!document.getElementById('orderDate').value) { alert('Please enter the order date.'); return; }
+  }
+  document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+  document.getElementById('step' + n).classList.add('active');
+  document.getElementById('progressFill').style.width = ((n - 1) / 2 * 100) + '%';
+  document.getElementById('progressText').textContent = 'Step ' + n + ' of 3';
+  document.getElementById('progressStepName').textContent = stepNames[n - 1];
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+const FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSdLTWwgFIhS69y-gHiSkjlp20R2XY2wTp4efnuYr_7bJldpEA/formResponse';
+
+async function submitOrder() {
+  const name = document.getElementById('techName').value;
+  const date = document.getElementById('orderDate').value;
+  if (!name) { alert('Please select your name in Step 1.'); goStep(1); return; }
+  if (!date) { alert('Please enter the order date in Step 1.'); goStep(1); return; }
+
+  document.getElementById('loadingOverlay').classList.add('show');
+  const g = id => document.getElementById(id).value || '0';
+
+  const fd = new FormData();
+  fd.append('entry.527948351',  name);                   // Technician Name
+  fd.append('entry.1837570843', date);                   // Date (YYYY-MM-DD — matches Google's date format)
+  fd.append('entry.1906473722', g('opt2White'));          // Opt2 White
+  fd.append('entry.602427005',  g('opt2Colour'));         // Opt2 Colour
+  fd.append('entry.1582651029', g('opt2Thinners'));       // Opt2 Thinners
+  fd.append('entry.1786918315', g('opt2Hardener'));       // Opt2 Hardener
+  fd.append('entry.1062131780', g('opt1Clear'));          // Opt1 Clear 1L
+  fd.append('entry.1417716250', g('opt1White'));          // Opt1 White
+  fd.append('entry.1094951382', g('opt1Catalyst'));       // Opt1 Catalyst
+  fd.append('entry.1384133749', g('opt1Hardener'));       // Opt1 Hardener
+  fd.append('entry.1592128897', g('opt1Thinners'));       // Opt1 Thinners
+  fd.append('entry.2011341662', g('tilePrimer'));         // Tile Primer
+  fd.append('entry.1395836615', g('permatrip'));          // Permatrip
+  fd.append('entry.1797812130', g('rollerHeads'));        // Roller Heads
+  fd.append('entry.1914087682', g('trayInserts'));        // Paint Tray Inserts
+  fd.append('entry.1588875363', g('rollerArms'));         // Roller Arms
+  fd.append('entry.554254613',  g('grit'));               // Grit
+  fd.append('entry.1899993902', g('tape1'));              // 1" Masking Tape
+  fd.append('entry.324492482',  g('tape2'));              // 2" Masking Tape
+  fd.append('entry.929769138',  g('shortSheet'));         // Short Sheeting
+  fd.append('entry.1139547604', g('highSheet'));          // High Sheeting
+  fd.append('entry.895591243',  g('mirka40'));            // Mirka 40HD
+  fd.append('entry.904542334',  g('mirka80'));            // Mirka 80HD
+  fd.append('entry.720500639',  g('mirka120'));           // Mirka 120HD
+  fd.append('entry.1825834125', g('mirka240'));           // Mirka 240HD
+  fd.append('entry.422768786',  g('mirka400'));           // Mirka 400HD
+  fd.append('entry.966417122',  g('degreaser'));          // Degreaser % Left
+  fd.append('entry.1965814812', g('cleanThinners'));      // Cleaning Thinners % Left
+  fd.append('entry.683272341',  g('fillerDolphin'));      // Filler Dolphin
+  fd.append('entry.1838715084', g('fillerP38'));          // Filler P38
+  fd.append('entry.1656233665', g('fillerP40'));          // Filler P40
+  fd.append('entry.1615044034', g('respiratorFilters'));  // Respirator Filters
+  fd.append('entry.825152963',  g('turbineFilters'));     // Turbine Filters
+  fd.append('entry.303621286',  g('dustMasks'));          // Dust Masks
+  fd.append('entry.544041537',  document.getElementById('notes').value); // Notes
+
+  try {
+    await fetch(FORM_URL, { method: 'POST', body: fd, mode: 'no-cors' });
+    showSuccess(name, date);
+  } catch (err) {
+    document.getElementById('loadingOverlay').classList.remove('show');
+    alert('Something went wrong. Please check your connection and try again.');
+    console.error(err);
+  }
+}
+
+function showSuccess(name, date) {
+  document.getElementById('loadingOverlay').classList.remove('show');
+  document.querySelectorAll('.step').forEach(s => s.style.display = 'none');
+  document.getElementById('progressFill').style.width = '100%';
+  document.getElementById('progressStepName').textContent = 'Complete';
+  document.getElementById('progressText').textContent = 'Done!';
+  document.getElementById('successName').textContent = name;
+  // Format date nicely for display
+  const [y, m, d] = date.split('-');
+  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  document.getElementById('successDate').textContent = d + ' ' + months[parseInt(m)-1] + ' ' + y;
+  document.getElementById('success-screen').style.display = 'block';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function resetForm() { location.reload(); }
+</script>
+</body>
+</html>
