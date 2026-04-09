@@ -384,11 +384,11 @@ async function submitOrder() {
   fd.append('entry.324492482',  g('tape2'));              // 2" Masking Tape
   fd.append('entry.929769138',  g('shortSheet'));         // Short Sheeting
   fd.append('entry.1139547604', g('highSheet'));          // High Sheeting
-  fd.append('entry.895591243',  g('mirka40'));            // Mirka 40HD
-  fd.append('entry.904542334',  g('mirka80'));            // Mirka 80HD
-  fd.append('entry.720500639',  g('mirka120'));           // Mirka 120HD
-  fd.append('entry.1825834125', g('mirka240'));           // Mirka 240HD
-  fd.append('entry.422768786',  g('mirka400'));           // Mirka 400HD
+  fd.append('entry.895591243',  g('mirka40'));            // Mirka 40
+  fd.append('entry.904542334',  g('mirka80'));            // Mirka 80
+  fd.append('entry.720500639',  g('mirka120'));           // Mirka 120
+  fd.append('entry.1825834125', g('mirka240'));           // Mirka 240
+  fd.append('entry.422768786',  g('mirka400'));           // Mirka 400
   fd.append('entry.966417122',  g('degreaser'));          // Degreaser % Left
   fd.append('entry.1965814812', g('cleanThinners'));      // Cleaning Thinners % Left
   fd.append('entry.683272341',  g('fillerDolphin'));      // Filler Dolphin
