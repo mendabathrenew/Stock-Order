@@ -7,28 +7,21 @@
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --yellow: #F2D60A;
-    --yellow-dark: #d4bc00;
-    --grey-dark: #2E2E2E;
-    --grey-mid: #4A4A4A;
-    --grey-light: #6B6B6B;
-    --grey-bg: #F5F5F3;
-    --grey-border: #DDDDD8;
-    --white: #FFFFFF;
+    --yellow: #F2D60A; --yellow-dark: #d4bc00; --grey-dark: #2E2E2E;
+    --grey-mid: #4A4A4A; --grey-light: #6B6B6B; --grey-bg: #F5F5F3;
+    --grey-border: #DDDDD8; --white: #FFFFFF;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: 'Barlow', sans-serif; background: var(--grey-bg); color: var(--grey-dark); min-height: 100vh; }
 
-  /* HEADER */
   header { background: var(--grey-dark); position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 12px rgba(0,0,0,0.3); }
   .header-inner { max-width: 780px; margin: 0 auto; display: flex; align-items: center; gap: 16px; padding: 14px 20px; }
   .logo-badge { background: var(--yellow); border-radius: 8px; padding: 6px 12px; display: flex; flex-direction: column; align-items: center; line-height: 1.2; flex-shrink: 0; }
-  .logo-badge span:first-child { font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 13px; color: var(--grey-dark); letter-spacing: 0.5px; }
+  .logo-badge span:first-child { font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 13px; color: var(--grey-dark); }
   .logo-badge span:last-child { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 11px; color: var(--grey-dark); letter-spacing: 1px; }
   .header-text h1 { font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 22px; color: var(--white); letter-spacing: 1.5px; text-transform: uppercase; }
   .header-text p { font-size: 12px; color: #aaa; margin-top: 1px; }
 
-  /* PROGRESS */
   .progress-bar-wrap { background: var(--grey-dark); padding: 0 20px 12px; }
   .progress-bar-inner { max-width: 780px; margin: 0 auto; }
   .progress-label { display: flex; justify-content: space-between; margin-bottom: 6px; }
@@ -37,15 +30,11 @@
   .progress-track { background: rgba(255,255,255,0.12); border-radius: 4px; height: 4px; overflow: hidden; }
   .progress-fill { background: var(--yellow); height: 100%; border-radius: 4px; width: 0%; transition: width 0.4s ease; }
 
-  /* WRAP */
   .form-wrap { max-width: 780px; margin: 0 auto; padding: 24px 16px 60px; }
-
-  /* STEPS */
   .step { display: none; }
   .step.active { display: block; animation: fadeUp 0.3s ease; }
   @keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-  /* CARD */
   .card { background: var(--white); border-radius: 12px; border: 1px solid var(--grey-border); margin-bottom: 16px; overflow: hidden; }
   .card-header { background: var(--grey-dark); padding: 12px 20px; display: flex; align-items: center; gap: 10px; }
   .card-header .icon { background: var(--yellow); color: var(--grey-dark); font-size: 14px; width: 28px; height: 28px; border-radius: 6px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
@@ -53,31 +42,25 @@
   .card-header p { font-size: 11px; color: #aaa; margin-top: 1px; }
   .card-body { padding: 20px; }
 
-  /* FIELDS */
   .field-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
   @media (max-width: 500px) { .field-grid { grid-template-columns: 1fr; } }
   .field { display: flex; flex-direction: column; gap: 5px; }
   .field label { font-size: 12px; font-weight: 600; color: var(--grey-mid); text-transform: uppercase; letter-spacing: 0.6px; }
-  .field input, .field select, .field textarea {
-    padding: 10px 12px; border: 1.5px solid var(--grey-border); border-radius: 7px;
-    font-family: 'Barlow', sans-serif; font-size: 15px; color: var(--grey-dark);
-    background: var(--white); transition: border-color 0.2s, box-shadow 0.2s;
-    appearance: none; -webkit-appearance: none; outline: none;
-  }
+  .field input, .field select, .field textarea { padding: 10px 12px; border: 1.5px solid var(--grey-border); border-radius: 7px; font-family: 'Barlow', sans-serif; font-size: 15px; color: var(--grey-dark); background: var(--white); transition: border-color 0.2s, box-shadow 0.2s; appearance: none; -webkit-appearance: none; outline: none; }
   .field input:focus, .field select:focus, .field textarea:focus { border-color: var(--yellow-dark); box-shadow: 0 0 0 3px rgba(242,214,10,0.18); }
   .field input[type="number"] { -moz-appearance: textfield; }
   .field input[type="number"]::-webkit-inner-spin-button, .field input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; }
   .field input[type="date"] { font-family: 'Barlow', sans-serif; }
+  .field select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%234A4A4A' stroke-width='1.8' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; padding-right: 36px; }
   .field textarea { resize: vertical; min-height: 80px; }
 
   .unit-wrap { position: relative; }
   .unit-wrap input { padding-right: 48px; width: 100%; }
-  .unit-badge { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); font-size: 11px; font-weight: 700; color: var(--grey-light); background: var(--grey-bg); padding: 2px 6px; border-radius: 4px; letter-spacing: 0.5px; pointer-events: none; }
+  .unit-badge { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); font-size: 11px; font-weight: 700; color: var(--grey-light); background: var(--grey-bg); padding: 2px 6px; border-radius: 4px; pointer-events: none; }
 
   .section-divider { font-family: 'Barlow Condensed', sans-serif; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--grey-light); padding: 4px 0 10px; margin: 16px 0 12px; display: flex; align-items: center; gap: 8px; }
   .section-divider::after { content: ''; flex: 1; height: 1px; background: var(--grey-border); }
 
-  /* TECH CARDS */
   .tech-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
   @media (max-width: 420px) { .tech-grid { grid-template-columns: repeat(2, 1fr); } }
   .tech-card { padding: 14px 8px; border-radius: 10px; border: 1.5px solid var(--grey-border); background: var(--white); font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 16px; letter-spacing: 0.5px; color: var(--grey-mid); cursor: pointer; text-align: center; transition: all 0.15s; text-transform: uppercase; display: flex; flex-direction: column; align-items: center; gap: 6px; }
@@ -87,7 +70,6 @@
   .tech-card.selected { background: var(--grey-dark); border-color: var(--grey-dark); color: var(--yellow); }
   .tech-card.selected .avatar { background: var(--yellow); border-color: var(--yellow); color: var(--grey-dark); }
 
-  /* BUTTONS */
   .nav-buttons { display: flex; justify-content: space-between; align-items: center; margin-top: 24px; gap: 12px; }
   .btn { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 16px; letter-spacing: 1px; text-transform: uppercase; padding: 13px 28px; border-radius: 8px; border: none; cursor: pointer; transition: all 0.18s; display: flex; align-items: center; gap: 7px; }
   .btn-primary { background: var(--yellow); color: var(--grey-dark); flex: 1; justify-content: center; }
@@ -97,20 +79,17 @@
   .btn-submit { background: var(--grey-dark); color: var(--yellow); flex: 1; justify-content: center; }
   .btn-submit:hover { background: #1a1a1a; transform: translateY(-1px); }
 
-  /* STEP DOTS */
   .step-dots { display: flex; align-items: center; gap: 6px; }
   .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--grey-border); transition: all 0.2s; }
   .dot.active { background: var(--yellow); width: 20px; border-radius: 4px; }
   .dot.done { background: var(--grey-mid); }
 
-  /* LOADING */
   .submitting-overlay { display: none; position: fixed; inset: 0; background: rgba(46,46,46,0.75); backdrop-filter: blur(4px); z-index: 999; align-items: center; justify-content: center; flex-direction: column; gap: 16px; }
   .submitting-overlay.show { display: flex; }
   .spinner { width: 44px; height: 44px; border: 4px solid rgba(255,255,255,0.2); border-top-color: var(--yellow); border-radius: 50%; animation: spin 0.8s linear infinite; }
   @keyframes spin { to { transform: rotate(360deg); } }
   .submitting-overlay p { color: var(--white); font-family: 'Barlow Condensed', sans-serif; font-size: 18px; letter-spacing: 1px; }
 
-  /* SUCCESS */
   #success-screen { display: none; text-align: center; padding: 60px 20px; animation: fadeUp 0.4s ease; }
   .success-icon { width: 72px; height: 72px; background: var(--yellow); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 32px; margin: 0 auto 20px; }
   #success-screen h2 { font-family: 'Barlow Condensed', sans-serif; font-size: 28px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; }
@@ -119,12 +98,7 @@
   .success-meta strong { color: var(--grey-dark); }
   .btn-reset { margin-top: 12px; background: var(--grey-dark); color: var(--yellow); border: none; padding: 13px 32px; border-radius: 8px; font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 16px; letter-spacing: 1px; text-transform: uppercase; cursor: pointer; }
   .btn-reset:hover { background: #1a1a1a; }
-
-  .pct-note { font-size: 11px; color: var(--grey-light); margin-top: 2px; }
   .req { color: var(--yellow-dark); }
-
-  /* ORDER BADGE */
-  .order-badge { display: inline-block; background: #fff3cd; border: 1px solid #f0c040; color: #7a5c00; font-family: 'Barlow Condensed', sans-serif; font-size: 12px; font-weight: 700; letter-spacing: 0.8px; text-transform: uppercase; padding: 4px 10px; border-radius: 20px; margin-bottom: 16px; }
 </style>
 </head>
 <body>
@@ -136,10 +110,7 @@
 
 <header>
   <div class="header-inner">
-    <div class="logo-badge">
-      <span>MEND A</span>
-      <span>BATH</span>
-    </div>
+    <div class="logo-badge"><span>MEND A</span><span>BATH</span></div>
     <div class="header-text">
       <h1>Stock Order</h1>
       <p>Complete and submit when stock is needed</p>
@@ -149,24 +120,19 @@
     <div class="progress-bar-inner">
       <div class="progress-label">
         <span class="step-name" id="progressStepName">Technician &amp; Date</span>
-        <span id="progressText">Step 1 of 3</span>
+        <span id="progressText">Step 1 of 4</span>
       </div>
-      <div class="progress-track">
-        <div class="progress-fill" id="progressFill"></div>
-      </div>
+      <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
     </div>
   </div>
 </header>
 
 <div class="form-wrap">
 
-  <!-- ===== STEP 1: TECH + DATE ===== -->
+  <!-- STEP 1: TECH + DATE -->
   <div class="step active" id="step1">
     <div class="card">
-      <div class="card-header">
-        <div class="icon">👤</div>
-        <div><h2>Technician &amp; Date</h2><p>Who is placing this order and when?</p></div>
-      </div>
+      <div class="card-header"><div class="icon">👤</div><div><h2>Technician &amp; Date</h2><p>Who is placing this order and when?</p></div></div>
       <div class="card-body">
         <div class="field" style="margin-bottom:20px">
           <label>Your Name <span class="req">*</span></label>
@@ -187,24 +153,24 @@
       </div>
     </div>
     <div class="nav-buttons">
-      <div class="step-dots"><div class="dot active"></div><div class="dot"></div><div class="dot"></div></div>
-      <button class="btn btn-primary" onclick="goStep(2)">Next: Paint &amp; Tools →</button>
+      <div class="step-dots"><div class="dot active"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+      <button class="btn btn-primary" onclick="goStep(2)">Next: Kits &amp; Materials →</button>
     </div>
   </div>
 
-  <!-- ===== STEP 2: PAINT + TOOLS ===== -->
+  <!-- STEP 2: KITS + OTHER MATERIALS -->
   <div class="step" id="step2">
     <div class="card">
-      <div class="card-header">
-        <div class="icon">🎨</div>
-        <div><h2>Paint &amp; Tool Stock</h2><p>Enter quantities needed — leave blank if not required</p></div>
-      </div>
+      <div class="card-header"><div class="icon">🎨</div><div><h2>Kits &amp; Materials</h2><p>Enter quantities needed — leave blank if not required</p></div></div>
       <div class="card-body">
 
         <div class="section-divider">OPT 2 Kit</div>
         <div class="field-grid">
           <div class="field"><label>White</label><div class="unit-wrap"><input type="number" id="opt2White" min="0" placeholder="0"><span class="unit-badge">QTY</span></div></div>
-          <div class="field"><label>Colour</label><div class="unit-wrap"><input type="number" id="opt2Colour" min="0" placeholder="0"><span class="unit-badge">QTY</span></div></div>
+          <div class="field">
+            <label>Colour <span style="font-size:10px;font-weight:400;text-transform:none">(Qty &amp; Colour)</span></label>
+            <input type="text" id="opt2Colour" placeholder="e.g. 2 - Blue">
+          </div>
           <div class="field"><label>Thinners</label><div class="unit-wrap"><input type="number" id="opt2Thinners" min="0" placeholder="0"><span class="unit-badge">QTY</span></div></div>
           <div class="field"><label>Hardener</label><div class="unit-wrap"><input type="number" id="opt2Hardener" min="0" placeholder="0"><span class="unit-badge">QTY</span></div></div>
         </div>
@@ -214,15 +180,36 @@
           <div class="field"><label>Clear 1L</label><div class="unit-wrap"><input type="number" id="opt1Clear" min="0" placeholder="0"><span class="unit-badge">QTY</span></div></div>
           <div class="field"><label>White</label><div class="unit-wrap"><input type="number" id="opt1White" min="0" placeholder="0"><span class="unit-badge">QTY</span></div></div>
           <div class="field"><label>Catalyst</label><div class="unit-wrap"><input type="number" id="opt1Catalyst" min="0" placeholder="0"><span class="unit-badge">QTY</span></div></div>
-          <div class="field"><label>Hardener</label><div class="unit-wrap"><input type="number" id="opt1Hardener" min="0" placeholder="0"><span class="unit-badge">QTY</span></div></div>
           <div class="field"><label>Thinners</label><div class="unit-wrap"><input type="number" id="opt1Thinners" min="0" placeholder="0"><span class="unit-badge">QTY</span></div></div>
         </div>
 
-        <div class="section-divider">Other Paints</div>
+        <div class="section-divider">Other Materials</div>
         <div class="field-grid">
           <div class="field"><label>Tile Primer</label><div class="unit-wrap"><input type="number" id="tilePrimer" min="0" placeholder="0"><span class="unit-badge">QTY</span></div></div>
+          <div class="field"><label>Cleaning Thinners 5L</label><div class="unit-wrap"><input type="number" id="cleanThinners" min="0" placeholder="0"><span class="unit-badge">QTY</span></div></div>
+          <div class="field"><label>G101 Degreaser</label><div class="unit-wrap"><input type="number" id="degreaser" min="0" placeholder="0"><span class="unit-badge">QTY</span></div></div>
+          <div class="field"><label>Paint Stripper</label><div class="unit-wrap"><input type="number" id="paintStripper" min="0" placeholder="0"><span class="unit-badge">QTY</span></div></div>
+          <div class="field"><label>Fade Out Thinners</label><div class="unit-wrap"><input type="number" id="fadeOutThinners" min="0" placeholder="0"><span class="unit-badge">QTY</span></div></div>
+          <div class="field"><label>G1 Polish</label><div class="unit-wrap"><input type="number" id="g1Polish" min="0" placeholder="0"><span class="unit-badge">QTY</span></div></div>
+          <div class="field"><label>G3 Polish</label><div class="unit-wrap"><input type="number" id="g3Polish" min="0" placeholder="0"><span class="unit-badge">QTY</span></div></div>
+          <div class="field"><label>G6 Polish</label><div class="unit-wrap"><input type="number" id="g6Polish" min="0" placeholder="0"><span class="unit-badge">QTY</span></div></div>
           <div class="field"><label>Permatrip</label><div class="unit-wrap"><input type="number" id="permatrip" min="0" placeholder="0"><span class="unit-badge">QTY</span></div></div>
         </div>
+
+      </div>
+    </div>
+    <div class="nav-buttons">
+      <button class="btn btn-secondary" onclick="goStep(1)">← Back</button>
+      <div class="step-dots"><div class="dot done"></div><div class="dot active"></div><div class="dot"></div><div class="dot"></div></div>
+      <button class="btn btn-primary" onclick="goStep(3)">Next: Consumables →</button>
+    </div>
+  </div>
+
+  <!-- STEP 3: CONSUMABLES -->
+  <div class="step" id="step3">
+    <div class="card">
+      <div class="card-header"><div class="icon">🗂️</div><div><h2>Consumables</h2><p>Tape, discs, fillers, PPE &amp; tools</p></div></div>
+      <div class="card-body">
 
         <div class="section-divider">Application Tools</div>
         <div class="field-grid">
@@ -231,24 +218,6 @@
           <div class="field"><label>Roller Arms</label><div class="unit-wrap"><input type="number" id="rollerArms" min="0" placeholder="0"><span class="unit-badge">QTY</span></div></div>
           <div class="field"><label>Grit</label><div class="unit-wrap"><input type="number" id="grit" min="0" placeholder="0"><span class="unit-badge">QTY</span></div></div>
         </div>
-
-      </div>
-    </div>
-    <div class="nav-buttons">
-      <button class="btn btn-secondary" onclick="goStep(1)">← Back</button>
-      <div class="step-dots"><div class="dot done"></div><div class="dot active"></div><div class="dot"></div></div>
-      <button class="btn btn-primary" onclick="goStep(3)">Next: Consumables →</button>
-    </div>
-  </div>
-
-  <!-- ===== STEP 3: CONSUMABLES + NOTES ===== -->
-  <div class="step" id="step3">
-    <div class="card">
-      <div class="card-header">
-        <div class="icon">🗂️</div>
-        <div><h2>Consumables &amp; Notes</h2><p>Tape, discs, fluids, fillers, PPE &amp; extras</p></div>
-      </div>
-      <div class="card-body">
 
         <div class="section-divider">Masking &amp; Sheeting</div>
         <div class="field-grid">
@@ -260,25 +229,11 @@
 
         <div class="section-divider">Mirka Discs</div>
         <div class="field-grid">
-          <div class="field"><label>40</label><div class="unit-wrap"><input type="number" id="mirka40" min="0" placeholder="0"><span class="unit-badge">QTY</span></div></div>
+          <div class="field"><label>40HD</label><div class="unit-wrap"><input type="number" id="mirka40" min="0" placeholder="0"><span class="unit-badge">QTY</span></div></div>
           <div class="field"><label>80</label><div class="unit-wrap"><input type="number" id="mirka80" min="0" placeholder="0"><span class="unit-badge">QTY</span></div></div>
           <div class="field"><label>120</label><div class="unit-wrap"><input type="number" id="mirka120" min="0" placeholder="0"><span class="unit-badge">QTY</span></div></div>
           <div class="field"><label>240</label><div class="unit-wrap"><input type="number" id="mirka240" min="0" placeholder="0"><span class="unit-badge">QTY</span></div></div>
           <div class="field"><label>400</label><div class="unit-wrap"><input type="number" id="mirka400" min="0" placeholder="0"><span class="unit-badge">QTY</span></div></div>
-        </div>
-
-        <div class="section-divider">Fluids</div>
-        <div class="field-grid">
-          <div class="field">
-            <label>Degreaser 5L</label>
-            <div class="unit-wrap"><input type="number" id="degreaser" min="0" max="100" placeholder="0"><span class="unit-badge">%</span></div>
-            <span class="pct-note">% remaining in container</span>
-          </div>
-          <div class="field">
-            <label>Cleaning Thinners 5L</label>
-            <div class="unit-wrap"><input type="number" id="cleanThinners" min="0" max="100" placeholder="0"><span class="unit-badge">%</span></div>
-            <span class="pct-note">% remaining in container</span>
-          </div>
         </div>
 
         <div class="section-divider">Fillers</div>
@@ -293,18 +248,66 @@
           <div class="field"><label>Respirator Filters</label><div class="unit-wrap"><input type="number" id="respiratorFilters" min="0" placeholder="0"><span class="unit-badge">QTY</span></div></div>
           <div class="field"><label>Turbine Filters</label><div class="unit-wrap"><input type="number" id="turbineFilters" min="0" placeholder="0"><span class="unit-badge">QTY</span></div></div>
           <div class="field"><label>Dust Masks</label><div class="unit-wrap"><input type="number" id="dustMasks" min="0" placeholder="0"><span class="unit-badge">QTY</span></div></div>
+          <div class="field"><label>Black Nitrile Gloves</label><div class="unit-wrap"><input type="number" id="nitrileGloves" min="0" placeholder="0"><span class="unit-badge">BOX</span></div></div>
         </div>
 
-        <div class="section-divider">Notes</div>
-        <div class="field">
-          <textarea id="notes" placeholder="Aftercare cards, business cards, or any other items needed…"></textarea>
+        <div class="section-divider">Workshop Supplies</div>
+        <div class="field-grid">
+          <div class="field"><label>Tissue Roll</label><div class="unit-wrap"><input type="number" id="tissueRoll" min="0" placeholder="0"><span class="unit-badge">QTY</span></div></div>
+          <div class="field"><label>Cleaning Sponges</label><div class="unit-wrap"><input type="number" id="cleaningSponges" min="0" placeholder="0"><span class="unit-badge">QTY</span></div></div>
+          <div class="field"><label>9mm Blades</label><div class="unit-wrap"><input type="number" id="blades9mm" min="0" placeholder="0"><span class="unit-badge">QTY</span></div></div>
+          <div class="field"><label>18mm Blades</label><div class="unit-wrap"><input type="number" id="blades18mm" min="0" placeholder="0"><span class="unit-badge">QTY</span></div></div>
+          <div class="field"><label>Trapezium Blades</label><div class="unit-wrap"><input type="number" id="bladesTrap" min="0" placeholder="0"><span class="unit-badge">QTY</span></div></div>
+        </div>
+
+        <div class="section-divider">Polishing Heads</div>
+        <div class="field-grid">
+          <div class="field"><label>Black</label><div class="unit-wrap"><input type="number" id="headBlack" min="0" placeholder="0"><span class="unit-badge">QTY</span></div></div>
+          <div class="field"><label>Yellow</label><div class="unit-wrap"><input type="number" id="headYellow" min="0" placeholder="0"><span class="unit-badge">QTY</span></div></div>
+          <div class="field"><label>White</label><div class="unit-wrap"><input type="number" id="headWhite" min="0" placeholder="0"><span class="unit-badge">QTY</span></div></div>
+          <div class="field"><label>Feztool Bags</label><div class="unit-wrap"><input type="number" id="feztoolBags" min="0" placeholder="0"><span class="unit-badge">QTY</span></div></div>
         </div>
 
       </div>
     </div>
     <div class="nav-buttons">
       <button class="btn btn-secondary" onclick="goStep(2)">← Back</button>
-      <div class="step-dots"><div class="dot done"></div><div class="dot done"></div><div class="dot active"></div></div>
+      <div class="step-dots"><div class="dot done"></div><div class="dot done"></div><div class="dot active"></div><div class="dot"></div></div>
+      <button class="btn btn-primary" onclick="goStep(4)">Next: Documents →</button>
+    </div>
+  </div>
+
+  <!-- STEP 4: DOCUMENTS + NOTES -->
+  <div class="step" id="step4">
+    <div class="card">
+      <div class="card-header"><div class="icon">📄</div><div><h2>Documents &amp; Notes</h2><p>Review cards, aftercare cards &amp; business cards</p></div></div>
+      <div class="card-body">
+
+        <div class="section-divider">Review Cards</div>
+        <div class="field-grid">
+          <div class="field"><label>Trust Pilot</label><div class="unit-wrap"><input type="number" id="reviewTrustPilot" min="0" placeholder="0"><span class="unit-badge">QTY</span></div></div>
+          <div class="field"><label>Google</label><div class="unit-wrap"><input type="number" id="reviewGoogle" min="0" placeholder="0"><span class="unit-badge">QTY</span></div></div>
+        </div>
+
+        <div class="section-divider">Aftercare Cards</div>
+        <div class="field-grid">
+          <div class="field"><label>Domestic</label><div class="unit-wrap"><input type="number" id="aftercareDomestic" min="0" placeholder="0"><span class="unit-badge">QTY</span></div></div>
+          <div class="field"><label>Commercial</label><div class="unit-wrap"><input type="number" id="aftercareCommercial" min="0" placeholder="0"><span class="unit-badge">QTY</span></div></div>
+        </div>
+
+        <div class="section-divider">Business Cards</div>
+        <div class="field-grid">
+          <div class="field"><label>Business Cards</label><div class="unit-wrap"><input type="number" id="businessCards" min="0" placeholder="0"><span class="unit-badge">QTY</span></div></div>
+        </div>
+
+        <div class="section-divider">Notes</div>
+        <div class="field"><textarea id="notes" placeholder="Any other items needed or notes…"></textarea></div>
+
+      </div>
+    </div>
+    <div class="nav-buttons">
+      <button class="btn btn-secondary" onclick="goStep(3)">← Back</button>
+      <div class="step-dots"><div class="dot done"></div><div class="dot done"></div><div class="dot done"></div><div class="dot active"></div></div>
       <button class="btn btn-submit" onclick="submitOrder()">✓ Submit Order</button>
     </div>
   </div>
@@ -314,10 +317,7 @@
     <div class="success-icon">✓</div>
     <h2>Order Submitted!</h2>
     <p>Your stock order has been recorded successfully.</p>
-    <div class="success-meta">
-      Submitted by <strong id="successName">—</strong><br>
-      Date: <strong id="successDate">—</strong>
-    </div>
+    <div class="success-meta">Submitted by <strong id="successName">—</strong><br>Date: <strong id="successDate">—</strong></div>
     <button class="btn-reset" onclick="resetForm()">Submit Another Order →</button>
   </div>
 
@@ -337,7 +337,7 @@ function selectTech(el, name) {
   document.getElementById('techName').value = name;
 }
 
-const stepNames = ['Technician & Date', 'Paint & Tool Stock', 'Consumables & Notes'];
+const stepNames = ['Technician & Date', 'Kits & Materials', 'Consumables', 'Documents & Notes'];
 function goStep(n) {
   if (n > 1) {
     if (!document.getElementById('techName').value) { alert('Please select your name before continuing.'); return; }
@@ -345,8 +345,8 @@ function goStep(n) {
   }
   document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
   document.getElementById('step' + n).classList.add('active');
-  document.getElementById('progressFill').style.width = ((n - 1) / 2 * 100) + '%';
-  document.getElementById('progressText').textContent = 'Step ' + n + ' of 3';
+  document.getElementById('progressFill').style.width = ((n - 1) / 3 * 100) + '%';
+  document.getElementById('progressText').textContent = 'Step ' + n + ' of 4';
   document.getElementById('progressStepName').textContent = stepNames[n - 1];
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
@@ -363,40 +363,59 @@ async function submitOrder() {
   const g = id => document.getElementById(id).value || '0';
 
   const fd = new FormData();
-  fd.append('entry.527948351',  name);                   // Technician Name
-  fd.append('entry.1837570843', date);                   // Date (YYYY-MM-DD — matches Google's date format)
-  fd.append('entry.1906473722', g('opt2White'));          // Opt2 White
-  fd.append('entry.602427005',  g('opt2Colour'));         // Opt2 Colour
-  fd.append('entry.1582651029', g('opt2Thinners'));       // Opt2 Thinners
-  fd.append('entry.1786918315', g('opt2Hardener'));       // Opt2 Hardener
-  fd.append('entry.1062131780', g('opt1Clear'));          // Opt1 Clear 1L
-  fd.append('entry.1417716250', g('opt1White'));          // Opt1 White
-  fd.append('entry.1094951382', g('opt1Catalyst'));       // Opt1 Catalyst
-  fd.append('entry.1384133749', g('opt1Hardener'));       // Opt1 Hardener
-  fd.append('entry.1592128897', g('opt1Thinners'));       // Opt1 Thinners
-  fd.append('entry.2011341662', g('tilePrimer'));         // Tile Primer
-  fd.append('entry.1395836615', g('permatrip'));          // Permatrip
-  fd.append('entry.1797812130', g('rollerHeads'));        // Roller Heads
-  fd.append('entry.1914087682', g('trayInserts'));        // Paint Tray Inserts
-  fd.append('entry.1588875363', g('rollerArms'));         // Roller Arms
-  fd.append('entry.554254613',  g('grit'));               // Grit
-  fd.append('entry.1899993902', g('tape1'));              // 1" Masking Tape
-  fd.append('entry.324492482',  g('tape2'));              // 2" Masking Tape
-  fd.append('entry.929769138',  g('shortSheet'));         // Short Sheeting
-  fd.append('entry.1139547604', g('highSheet'));          // High Sheeting
-  fd.append('entry.895591243',  g('mirka40'));            // Mirka 40
-  fd.append('entry.904542334',  g('mirka80'));            // Mirka 80
-  fd.append('entry.720500639',  g('mirka120'));           // Mirka 120
-  fd.append('entry.1825834125', g('mirka240'));           // Mirka 240
-  fd.append('entry.422768786',  g('mirka400'));           // Mirka 400
-  fd.append('entry.966417122',  g('degreaser'));          // Degreaser % Left
-  fd.append('entry.1965814812', g('cleanThinners'));      // Cleaning Thinners % Left
-  fd.append('entry.683272341',  g('fillerDolphin'));      // Filler Dolphin
-  fd.append('entry.1838715084', g('fillerP38'));          // Filler P38
-  fd.append('entry.1656233665', g('fillerP40'));          // Filler P40
-  fd.append('entry.1615044034', g('respiratorFilters'));  // Respirator Filters
-  fd.append('entry.825152963',  g('turbineFilters'));     // Turbine Filters
-  fd.append('entry.303621286',  g('dustMasks'));          // Dust Masks
+  fd.append('entry.527948351',  name);                      // Technician Name
+  fd.append('entry.1837570843', date);                      // Date
+  fd.append('entry.1906473722', g('opt2White'));             // Opt2 White
+  fd.append('entry.602427005',  g('opt2Colour'));            // Opt2 Colour
+  fd.append('entry.1582651029', g('opt2Thinners'));          // Opt2 Thinners
+  fd.append('entry.1786918315', g('opt2Hardener'));          // Opt2 Hardener
+  fd.append('entry.1062131780', g('opt1Clear'));             // Opt1 Clear 1L
+  fd.append('entry.1417716250', g('opt1White'));             // Opt1 White
+  fd.append('entry.1094951382', g('opt1Catalyst'));          // Opt1 Catalyst
+  fd.append('entry.1592128897', g('opt1Thinners'));          // Opt1 Thinners
+  fd.append('entry.2011341662', g('tilePrimer'));            // Tile Primer
+  fd.append('entry.1965814812', g('cleanThinners'));         // Cleaning Thinners 5L
+  fd.append('entry.966417122',  g('degreaser'));             // G101 Degreaser
+  fd.append('entry.49283256',   g('paintStripper'));         // Paint Stripper
+  fd.append('entry.877797754',  g('fadeOutThinners'));       // Fade Out Thinners
+  fd.append('entry.961743311',  g('g1Polish'));              // G1 Polish
+  fd.append('entry.1887883308', g('g3Polish'));              // G3 Polish
+  fd.append('entry.1582254751', g('g6Polish'));              // G6 Polish
+  fd.append('entry.1395836615', g('permatrip'));             // Permatrip
+  fd.append('entry.1797812130', g('rollerHeads'));           // Roller Heads
+  fd.append('entry.1914087682', g('trayInserts'));           // Paint Tray Inserts
+  fd.append('entry.1588875363', g('rollerArms'));            // Roller Arms
+  fd.append('entry.554254613',  g('grit'));                  // Grit
+  fd.append('entry.1899993902', g('tape1'));                 // 1" Masking Tape
+  fd.append('entry.324492482',  g('tape2'));                 // 2" Masking Tape
+  fd.append('entry.929769138',  g('shortSheet'));            // Short Sheeting
+  fd.append('entry.1139547604', g('highSheet'));             // High Sheeting
+  fd.append('entry.895591243',  g('mirka40'));               // Mirka 40HD
+  fd.append('entry.904542334',  g('mirka80'));               // Mirka 80
+  fd.append('entry.720500639',  g('mirka120'));              // Mirka 120
+  fd.append('entry.1825834125', g('mirka240'));              // Mirka 240
+  fd.append('entry.422768786',  g('mirka400'));              // Mirka 400
+  fd.append('entry.683272341',  g('fillerDolphin'));         // Fillers Dolphin
+  fd.append('entry.1838715084', g('fillerP38'));             // Fillers P38
+  fd.append('entry.1656233665', g('fillerP40'));             // Fillers P40
+  fd.append('entry.1615044034', g('respiratorFilters'));     // Respirator Filters
+  fd.append('entry.825152963',  g('turbineFilters'));        // Turbine Filters
+  fd.append('entry.303621286',  g('dustMasks'));             // Dust Masks
+  fd.append('entry.564625569',  g('nitrileGloves'));         // Black Nitrile Gloves
+  fd.append('entry.376201633',  g('tissueRoll'));            // Tissue Roll
+  fd.append('entry.624318919',  g('cleaningSponges'));       // Cleaning Sponges
+  fd.append('entry.1178138977', g('blades9mm'));             // 9mm Blades
+  fd.append('entry.653842199',  g('blades18mm'));            // 18mm Blades
+  fd.append('entry.337322770',  g('bladesTrap'));            // Trapezium Blades
+  fd.append('entry.685461302',  g('headBlack'));             // Polishing Head Black
+  fd.append('entry.1886681259', g('headYellow'));            // Polishing Head Yellow
+  fd.append('entry.1134231306', g('headWhite'));             // Polishing Head White
+  fd.append('entry.46619533',   g('feztoolBags'));           // Feztool Bags
+  fd.append('entry.39232214',   g('reviewTrustPilot'));      // Review Cards TrustPilot
+  fd.append('entry.1952534093', g('reviewGoogle'));          // Review Cards Google
+  fd.append('entry.711363929',  g('aftercareDomestic'));     // Aftercare Cards Domestic
+  fd.append('entry.1329789622', g('aftercareCommercial'));   // Aftercare Cards Commercial
+  fd.append('entry.943555790',  g('businessCards'));         // Business Cards
   fd.append('entry.544041537',  document.getElementById('notes').value); // Notes
 
   try {
@@ -416,14 +435,12 @@ function showSuccess(name, date) {
   document.getElementById('progressStepName').textContent = 'Complete';
   document.getElementById('progressText').textContent = 'Done!';
   document.getElementById('successName').textContent = name;
-  // Format date nicely for display
   const [y, m, d] = date.split('-');
   const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
   document.getElementById('successDate').textContent = d + ' ' + months[parseInt(m)-1] + ' ' + y;
   document.getElementById('success-screen').style.display = 'block';
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
-
 function resetForm() { location.reload(); }
 </script>
 </body>
