@@ -348,7 +348,7 @@ document.getElementById('orderDate').value = yyyy + '-' + mm + '-' + dd;
   if (!user) return;
 
   document.querySelectorAll('.tech-card').forEach(card => {
-    const cardName = card.textContent.trim();
+    const cardName = card.lastChild.textContent.trim();
     if (cardName.toLowerCase() === user.toLowerCase()) {
       card.classList.add('selected');
     }
