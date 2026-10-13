@@ -55,6 +55,9 @@
   .field textarea { resize: vertical; min-height: 80px; }
 
   .unit-wrap { position: relative; }
+  .level-note { font-size: 11px; color: var(--grey-light); margin-top: 2px; }
+  .field.level-warn input { border-color: #D32F2F; }
+  .field.level-warn .level-note { color: #D32F2F; font-weight: 600; }
   .unit-wrap input { padding-right: 48px; width: 100%; }
   .unit-badge { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); font-size: 11px; font-weight: 700; color: var(--grey-light); background: var(--grey-bg); padding: 2px 6px; border-radius: 4px; pointer-events: none; }
 
@@ -386,6 +389,90 @@ function goStep(n) {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
+// Most a tech may order of each item in one order. Orders above this are blocked.
+const LEVELS = {
+  opt2White:            { name: 'Opt 2 Kit - White', max: 12 },
+  opt2Colour:           { name: 'Opt 2 Kit - Colour', max: 1 },
+  opt2Thinners:         { name: 'Opt 2 - Thinners', max: 4 },
+  opt2Hardener:         { name: 'Opt 2 - Hardener', max: 4 },
+  opt1Clear:            { name: 'Opt 1 - Clear 1L', max: 1 },
+  opt1White:            { name: 'Opt 1 - White', max: 2 },
+  opt1Catalyst:         { name: 'Opt 1 - Catalyst', max: 2 },
+  opt1Thinners:         { name: 'Opt 1 - Thinners', max: 2 },
+  tilePrimer:           { name: 'Tile Primer', max: 9 },
+  cleanThinners:        { name: 'Thinners 5L', max: 1 },
+  degreaser:            { name: 'G101', max: 1 },
+  paintStripper:        { name: 'Stripper', max: 1 },
+  fadeOutThinners:      { name: 'Fade Out Thinners 100ml', max: 1 },
+  g1Polish:             { name: 'Polish - G1', max: 1 },
+  g3Polish:             { name: 'Polish - G3', max: 1 },
+  g6Polish:             { name: 'Polish - G6', max: 1 },
+  permatrip:            { name: 'Perma Trim', max: 4 },
+  rollerHeads:          { name: 'Roller Heads', max: 4 },
+  trayInserts:          { name: 'Paint Tray Inserts', max: 3 },
+  rollerArms:           { name: 'Roller Arms', max: 1 },
+  grit:                 { name: 'Grit Hemple 150gms', max: 1 },
+  tape1:                { name: '1" Masking Tape', max: 4 },
+  tape2:                { name: '2" Masking Tape', max: 4 },
+  shortSheet:           { name: 'Short Sheeting', max: 6 },
+  highSheet:            { name: 'High Sheeting', max: 1 },
+  mirka40:              { name: 'Mirka Discs HD - 40 Grit', max: 1 },
+  mirka80:              { name: 'Mirka Discs - 80 Grit', max: 1 },
+  mirka120:             { name: 'Mirka Discs 120 Grit', max: 1 },
+  mirka240:             { name: 'Mirka Discs 240 Grit', max: 1 },
+  mirka400:             { name: 'Mirka Discs 400 Grit', max: 1 },
+  fillerDolphin:        { name: 'Filler - Dolphin Glaze', max: 1 },
+  fillerP38:            { name: 'Filler - P38', max: 1 },
+  fillerP40:            { name: 'Filler - P40', max: 1 },
+  respiratorFilters3M:  { name: 'Respirator Filters - 3M', max: 1 },
+  respiratorFiltersJSP: { name: 'Respirator Filters - JSP', max: 1 },
+  onionBoard:           { name: 'Onion Board', max: 1 },
+  turbineFilters:       { name: 'Turbine Filters', max: 2 },
+  dustMasks:            { name: 'JSP Dust Masks', max: 1 },
+  nitrileGloves:        { name: 'Black Nitrile Gloves', max: 1 },
+  tissueRoll:           { name: 'Tissue Roll (Pack of 3)', max: 2 },
+  cleaningSponges:      { name: 'Cleaning Sponges', max: 4 },
+  blades9mm:            { name: '9mm Blades (Pack of 50)', max: 1 },
+  blades18mm:           { name: '18mm Blades (Pack of 50)', max: 1 },
+  bladesTrap:           { name: 'Trapezium Blades', max: 1 },
+  headBlack:            { name: 'Polishing Head - Black', max: 1 },
+  headYellow:           { name: 'Polishing Head - Yellow', max: 1 },
+  headWhite:            { name: 'Polishing Head - White', max: 1 },
+  feztoolBags:          { name: 'Feztool Bags', max: 1 },
+  kurust:               { name: 'Kurust 250ml', max: 1 },
+  maroonPads:           { name: 'Maroon Pads', max: 2 },
+  pencils:              { name: 'Pencil', max: 2 },
+  paintBrush:           { name: 'Paint Brushes (for stripping)', max: 1 },
+  handWipes:            { name: 'Big Hand Wipes', max: 1 },
+  mixPots:              { name: 'Mixing Pots', max: 3 },
+  syringes:             { name: 'Syringes', max: 10 },
+  blueRedBrush:         { name: 'Blue/Red Brush', max: 1 },
+  diamondDisc:          { name: 'Diamond Disc', max: 1 },
+  reviewTrustPilot:     { name: 'Review Cards - Trust Pilot', max: 20 },
+  reviewGoogle:         { name: 'Review Cards - Google', max: 20 },
+  aftercareDomestic:    { name: 'Domestic Aftercare Cards', max: 20 },
+  aftercareCommercial:  { name: 'Commercial Aftercare Cards', max: 20 },
+};
+// parseFloat also reads the leading number of the colour field, e.g. "2 - Blue".
+const qty = id => parseFloat(document.getElementById(id).value) || 0;
+
+function checkLevel(id) {
+  const field = document.getElementById(id).closest('.field'), max = LEVELS[id].max;
+  const over = qty(id) > max;
+  field.classList.toggle('level-warn', over);
+  field.querySelector('.level-note').textContent = over ? 'Over max (' + max + ') – please reduce' : 'Max per order: ' + max;
+}
+
+Object.keys(LEVELS).forEach(id => {
+  const input = document.getElementById(id);
+  if (input.type === 'number') input.max = LEVELS[id].max;
+  const note = document.createElement('div');
+  note.className = 'level-note';
+  input.closest('.field').appendChild(note);
+  input.addEventListener('input', () => checkLevel(id));
+  checkLevel(id);
+});
+
 const FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSdLTWwgFIhS69y-gHiSkjlp20R2XY2wTp4efnuYr_7bJldpEA/formResponse';
 
 async function submitOrder() {
@@ -393,6 +480,17 @@ async function submitOrder() {
   const date = document.getElementById('orderDate').value;
   if (!name) { alert('Please select your name in Step 1.'); goStep(1); return; }
   if (!date) { alert('Please enter the order date in Step 1.'); goStep(1); return; }
+
+  const overMax = Object.keys(LEVELS).filter(id => qty(id) > LEVELS[id].max);
+  if (overMax.length) {
+    alert('These items are over the maximum you can order:\n\n' +
+      overMax.map(id => LEVELS[id].name + ': ' + qty(id) + ' (max ' + LEVELS[id].max + ')').join('\n') +
+      '\n\nPlease reduce them before submitting.');
+    const first = document.getElementById(overMax[0]);
+    goStep(Number(first.closest('.step').id.replace('step', '')));
+    first.focus();
+    return;
+  }
 
   document.getElementById('loadingOverlay').classList.add('show');
   const g = id => document.getElementById(id).value || '0';
