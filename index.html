@@ -495,11 +495,7 @@ async function submitOrder() {
   document.getElementById('loadingOverlay').classList.add('show');
   const g = id => document.getElementById(id).value || '0';
 
-  // Diamond Disc and Blue/Red Brush have no Google Form question yet, so their
-  // quantities ride along in Notes until entry IDs are added for them.
-  const newItems = [['Diamond Disc', g('diamondDisc')], ['Blue/Red Brush', g('blueRedBrush')]]
-    .filter(([, qty]) => qty !== '0').map(([item, qty]) => item + ': ' + qty).join(', ');
-  const notes = [document.getElementById('notes').value, newItems && 'NEW ITEMS - ' + newItems].filter(Boolean).join('\n');
+  const notes = document.getElementById('notes').value;
 
   const fd = new FormData();
   fd.append('entry.527948351',  name);                      // Technician Name
@@ -564,7 +560,9 @@ async function submitOrder() {
   fd.append('entry.711363929',  g('aftercareDomestic'));     // Aftercare Cards Domestic
   fd.append('entry.1329789622', g('aftercareCommercial'));   // Aftercare Cards Commercial
   fd.append('entry.943555790',  g('businessCards'));         // Business Cards
-  fd.append('entry.544041537',  notes); // Notes (incl. new items)
+  fd.append('entry.2055303505', g('diamondDisc'));           // Diamond Disc
+  fd.append('entry.12430947',   g('blueRedBrush'));          // Blue/Red Brush
+  fd.append('entry.544041537',  notes);                      // Notes
 
   try {
     await fetch(FORM_URL, { method: 'POST', body: fd, mode: 'no-cors' });
